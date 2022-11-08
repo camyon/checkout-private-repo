@@ -1,0 +1,30 @@
+name: Checkout private repository
+description: Checks out a private repository using oauth token
+inputs:
+    token:
+        description: OAuth token
+        required: true
+    repo-url:
+        description: GitHub repository url, e.g. https://github.com/<org-or-user>/<repo>.git
+        required: true
+    ref:
+        description: Branch/Tag/Commit reference
+        required: true
+    subdirectory:
+        description: Sparse checkout a specific subdirectory
+runs:
+  using: "composite"
+  steps:
+      - name: Checkout
+        shell: bash
+        run: |
+          https="https://github.com/"
+          git="git@github.com:"
+          ssh="ssh://git@github.com/"
+          https_replace="https://${{ inputs.token }}:x-oauth-basic@github.com/"
+          
+          url=${url/$https/$https_replace}
+          url=${url/$git/$https_replace}
+          url=${url/$ssh/$https_replace}
+          git clone --depth 1 -b ${{ inputs.ref}} $url
+        
