@@ -10,8 +10,8 @@ inputs:
     ref:
         description: Branch/Tag/Commit reference
         required: true
-    subdirectory:
-        description: Sparse checkout a specific subdirectory
+    path:
+        description: Path where to clone the repo. Defaults to $GITHUB_WORKSPACE. If a single name is used, then it will be $GITHUB_WORKSPACE/<name>
 runs:
   using: "composite"
   steps:
@@ -27,5 +27,5 @@ runs:
           url=${url/$https/$https_replace}
           url=${url/$git/$https_replace}
           url=${url/$ssh/$https_replace}
-          git clone --depth 1 -b ${{ inputs.ref}} $url
+          git clone --depth 1 -b ${{ inputs.ref}} $url $path
         
