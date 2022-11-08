@@ -27,5 +27,5 @@ runs:
           url=${url/$https/$https_replace}
           url=${url/$git/$https_replace}
           url=${url/$ssh/$https_replace}
-          git clone --depth 1 -b ${{ inputs.ref}} $url $path
+          git clone --depth 1 -b ${{ inputs.ref}} $url ${{ inputs.path }}
         
